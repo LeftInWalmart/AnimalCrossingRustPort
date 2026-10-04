@@ -1,0 +1,14 @@
+key,value
+game_id,GAFE01
+title,Animal Crossing (USA)
+engine,"Nintendo EAD 'GCFOREST' (N64 Doubutsu no Mori port: libultra/libforest emulation layer), JSystem (JKernel/JUtility/JFramework/J2D), jaudio_NES, Famicom emulator, Dolphin SDK, Metrowerks runtime"
+entry_point,0x80003140
+bss,0x800E2280+0x13695D
+dol_sha1,2ae8f56e7791d37e165bd5900921f2269f9515bf
+dol_size,918720
+rel,"foresta.rel.szs (Yaz0) -> foresta.rel, module id 1"
+rel_base,0x81800000
+rel_sha1,c59d278ad8542bb05d6cbb632f60a0db05bef203
+rel_size,15640056
+symbols,static.map + foresta.map from the disc (original CodeWarrior linker maps)
+toolchain,Ghidra 12.1.4 + GameCubeLoader via ghidra-cli 0.2.2

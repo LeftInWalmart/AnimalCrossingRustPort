@@ -1,0 +1,30 @@
+# Public repository: only the tools, the hand-written runtime and hand-curated metadata.
+# Everything generated from the game's executable and foresta.rel (it contains the game's code
+# and data) stays local and is regenerated from your own disc image (see README).
+
+# Sheets generated from the game (instructions, memory image, symbols, strings, decompiled metadata)
+/sheets/*
+!/sheets/hle.csv
+!/sheets/meta.csv
+!/sheets/rel_layout.csv
+
+# Ghidra C projection
+/src/
+
+# Generated Rust: the 48 recompiled crates, the memory image and the dispatch table,
+# plus the generated workspace / ac-recomp manifests (written by tools/gen_rust.py)
+/rust/crates/recomp/
+/rust/crates/ac-recomp/mem/
+/rust/crates/ac-recomp/src/table.rs
+/rust/crates/ac-recomp/Cargo.toml
+/rust/Cargo.toml
+/rust/Cargo.lock
+
+# Build output and runtime files
+/rust/target/
+memcard/
+*.log
+*.txt
+!/rust/crates/**/*.txt
+*.png
+__pycache__/

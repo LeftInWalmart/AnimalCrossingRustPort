@@ -1,0 +1,11 @@
+section,index,addr,size,exec
+header,,0x81800000,15640056,0
+.text,1,0x818000E8,2953132,1
+.ctors,2,0x81AD1094,4,0
+.dtors,3,0x81AD1098,4,0
+.rodata,4,0x81AD10A0,49804,0
+.data,5,0x81ADD340,11400440,0
+.bss,6,0x826EA600,2306748,0
+prolog,1,0x818000E8,0,1
+epilog,1,0x81800148,0,1
+unresolved,1,0x81800194,0,1

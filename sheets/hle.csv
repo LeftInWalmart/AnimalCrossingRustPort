@@ -1,0 +1,93 @@
+name,addr,area,status,notes
+OSCreateThread,0x8007E2BC,threads,implemented,"Runs original to fill OSThread, then registers with host scheduler"
+OSResumeThread,0x8007E85C,threads,implemented,Host scheduler; first resume spawns a host thread at context.srr0
+OSSuspendThread,0x8007EAE4,threads,implemented,Host scheduler
+OSSleepThread,0x8007EC54,threads,implemented,Blocks the host thread on the guest queue address
+OSWakeupThread,0x8007ED40,threads,implemented,Readies all threads waiting on the queue; preempts if higher priority
+__OSReschedule,0x8007E250,threads,implemented,Preemption check
+OSExitThread,0x8007E3DC,threads,implemented,"Marks thread dead, wakes joiners, parks host thread"
+OSCancelThread,0x8007E4C0,threads,implemented,Host scheduler
+SelectThread,0x8007E050,threads,implemented,Should be unreachable; logged
+OSLoadContext,0x8007A350,threads,implemented,Should be unreachable (rfi context switch); logged
+OSSetAlarm,0x8007931C,alarms,implemented,Host timer; handler delivered like an interrupt
+OSCancelAlarm,0x80079384,alarms,implemented,Host timer
+DVDInit,0x800850F4,dvd,implemented,Only __DVDFSInit (FST pointers); no drive reset
+DVDReadAbsAsyncPrio,0x80086C50,dvd,implemented,"Synchronous copy from disc image, then callback; covers DVDReadAsyncPrio/DVDReadPrio"
+DVDReadDiskID,0x80086DFC,dvd,implemented,Copies disc header
+DVDInquiryAsync,0x8008705C,dvd,implemented,Zeroed drive info
+DVDCancelAsync,0x80087278,dvd,implemented,Immediate
+DVDCancel,0x800874E8,dvd,implemented,Immediate
+DVDGetDriveStatus,0x800871BC,dvd,implemented,Always idle
+DVDReset,0x8008712C,dvd,implemented,No-op
+DVDCheckDisk,0x800875C0,dvd,implemented,Always present
+DVDGetCommandBlockStatus,0x80087170,dvd,implemented,Reads block->state
+PADInit,0x8008A798,pad,implemented,Always succeeds
+PADReset,0x8008A594,pad,implemented,Always succeeds
+PADRecalibrate,0x8008A694,pad,implemented,Always succeeds
+PADControlMotor,0x8008AE0C,pad,implemented,No rumble
+PADSetSamplingCallback,0x8008B858,pad,implemented,Not called back
+PADRead,0x8008A9A8,pad,implemented,Port state from Bevy keyboard/gamepad input
+SIGetType,0x80082DB4,pad,implemented,Same as SIProbe
+__GXFifoLink,0x800946D4,gx,implemented,Tracks CPU-FIFO/GPU link so display-list recording is not drawn
+__AI_SRC_INIT,0x8008C04C,audio,implemented,Skips audio sample-rate calibration busy loop
+OSReport,0x8005A750,debug,implemented,Printed to log / ac_trace.log
+OSPanic,0x8005A7DC,debug,implemented,Logged; thread parked
+OSResetSystem,0x8007C9FC,system,implemented,Ignored (logged)
+__OSDoHotReset,0x8007C9B4,system,implemented,Ignored (logged)
+PPCHalt,0x800786BC,system,implemented,Logged; thread parked
+__OSInitAudioSystem,0x800798AC,audio,implemented,Skips the IPL ucode handshake; the jaudio DSP ucode is emulated at the command level (dsp.rs)
+__OSStopAudioSystem,0x80079A68,audio,implemented,Skips the IPL ucode handshake; the jaudio DSP ucode is emulated at the command level (dsp.rs)
+CARDInit,0x8008E078,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDProbeEx,0x8008FE98,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDMountAsync,0x8009055C,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDUnmount,0x800907E0,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDCheckExAsync,0x8008F7C0,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDFormat,0x80091070,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDFreeBlocks,0x8008E298,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDOpen,0x800914A4,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDClose,0x8009161C,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDCreateAsync,0x800917A8,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDReadAsync,0x80091CF8,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDWriteAsync,0x800920A8,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDDeleteAsync,0x800922A8,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDGetStatus,0x800925F8,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDSetStatusAsync,0x80092724,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+PPCMfhid2,0x800786D0,cpu,implemented,HID2 is CPU-global: synced from/to a shared copy (per-thread register files otherwise lose LCEnable/PSE)
+PPCMthid2,0x800786D8,cpu,implemented,HID2 global sync
+LCDisable,0x80079D08,cpu,implemented,HID2 global sync
+__OSLoadFPUContext,0x8007A01C,cpu,implemented,HID2 global sync
+__OSSaveFPUContext,0x8007A140,cpu,implemented,HID2 global sync
+OSDisableInterrupts,0x8007AC24,cpu,implemented,"Clears MSR.EE, returns previous EE. The SLEIGH mtmsr semantics preserve the old EE bit, so the recompiled body never disabled interrupts"
+OSEnableInterrupts,0x8007AC38,cpu,implemented,"Sets MSR.EE, returns previous EE (see OSDisableInterrupts)"
+OSRestoreInterrupts,0x8007AC4C,cpu,implemented,"MSR.EE = (r3 != 0), returns previous EE (see OSDisableInterrupts)"
+PPCMtmsr,0x80078684,cpu,implemented,MSR = r3 including EE (see OSDisableInterrupts)
+PSMTXCopy,0x800832D4,math,implemented,Native MTX library (psmtx.rs): single-precision fused steps in the SDK's accumulation order
+PSMTXConcat,0x80083308,math,implemented,Native MTX library (psmtx.rs): single-precision fused steps in the SDK's accumulation order
+PSVECCrossProduct,0x8008386C,math,implemented,Native MTX library (psmtx.rs): single-precision fused steps in the SDK's accumulation order
+PSMTXInverse,0x800833D4,math,implemented,Native MTX library (psmtx.rs): single-precision fused steps in the SDK's accumulation order
+CARDGetResultCode,0x8008E268,memcard,implemented,Last result of the emulated CARD call on that channel (memcard.rs)
+OSFillFPUContext,0x8007A884,cpu,implemented,HID2 global sync
+PSMTXMultVec,0x8008373C,math,implemented,Native MTX library (psmtx.rs): single-precision fused steps in the SDK's accumulation order
+DVDClose,0x80084B64,dvd,implemented,"Withdraws a completion callback still queued for the file (sched::dvd_complete), then runs the original"
+OSLink,0x8007B718,rel,implemented,"foresta.rel: copies the image LoadLink read into its heap buffer to REL_BASE (0x81800000, extended RAM above MEM1) and links it there with the game's own OSLink, BSS right after the image; the linked header is mirrored back into the game's buffer (prolog/epilog). The recompiled module code was generated for exactly that address (tools/rel_link.py)"
+OSUnlink,0x8007BB74,rel,implemented,Unlinks the module at REL_BASE when the game passes its heap buffer
+DspBoot__Fv,0x8002CCA0,audio,implemented,Boots the jaudio DSP task without the ucode upload; the DSP is emulated at the command level (dsp.rs)
+DSPSendCommands__FPUlUl,0x8002CD20,audio,implemented,"jaudio DSP command HLE (dsp.rs): setup table, render frame"
+DSPReleaseHalt__Fv,0x8002CDC0,audio,implemented,No DSP halt to release (dsp.rs)
+DSPWaitFinish__Fv,0x8002CE20,audio,implemented,Commands complete synchronously (dsp.rs)
+emu64_texture_cache_data_entry_set,0x8004AE00,rel,implemented,"LoadLink registers foresta.rel's buffer as emu64 static texture data right before OSLink; the range is moved to REL_BASE, where the module's data is used"
+CARDCheck,0x8008FD78,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDCheckAsync,0x8008FD50,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDMount,0x800906FC,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDFormatAsync,0x80091028,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDFastOpen,0x80091344,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDCreate,0x800919C8,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDRead,0x80091E40,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDWrite,0x800921BC,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDDelete,0x800923B8,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDRename,0x80092ADC,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDSetStatus,0x80092898,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDGetAttributes,0x80092E7C,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+CARDSetAttributes,0x80092EBC,memcard,implemented,"Slot A emulated in memcard.rs, saved to memcard/slotA.bin"
+__CARDGetStatusEx,0x80092B24,memcard,implemented,Directory entry (CARDDir) of an emulated file; the game uses it to set permission bits
+__CARDSetStatusEx,0x80092E34,memcard,implemented,"Writes the directory entry fields back to the emulated file (permission, copy count, icon/banner, time)"
